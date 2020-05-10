@@ -6,7 +6,7 @@
 ```
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 ```
-- vue cli (Recommended)
+- vue cli `(Recommended)`
 
 # App
 ```
@@ -278,3 +278,106 @@ ex.5 input number แปลง เป็นให้
         price: 0
     }
 ```
+
+# Watchers 
+    observe ตัวแปล เพื่อจะทำอะไรสักอย่าง
+
+ex.1
+```
+    <p>{{messageUpper}}</p>
+    <input v-model="message"/>
+    ...
+    data: {
+        message: '',
+        messageUpper: ''
+    },
+    watch: {
+        message: function() {
+            this.messageUpper = this.message.toUpperCase()
+        }
+    }
+```
+ex.2 auto complete
+หลีกเลี่ยง การใช้ arrow function ใน callback `(Recommended)`
+```
+    <p>{{messageUpper}}</p>
+    <input v-model="message"/>
+    ...
+    data: {
+        message: '',
+        timeout: null,
+    },
+    methods: {
+        querySearch: function() {
+            console.log('hello')
+        }
+    },
+    watch: {
+        message: function() {
+            clearTimeout(this.timeout);
+            const _this = this;
+            this.timeout = setTimeout(function() {
+                _this.querySearch();
+            }, 800)
+        }
+    }
+```
+
+# Computed `(Recommended)`
+    มองสิ่งที่เปลี่ยนแปลงใน scope, สามารถ watch ได้หลายตัว
+
+ex.1
+```
+    <p>Message : {{message}}</p>
+    <p>Reverse Message : {{reverseMessage}}</p>
+    <p>{{date}}</p>
+    <input v-model="message"/>
+    ...
+    data: {
+        message: 'Hello Angular',
+    },
+    computed: {
+        reverseMessage: function() {
+           return this.message.split('').reverse().join('')
+        },
+        date: function() {
+            console.log(this.message)
+            return new Date()
+        }
+    }
+```
+ex.2 getter setter
+```
+    <p>First Name : {{firstName}}</p>
+    <p>Last Name : {{lastName}}</p>
+    <p>Full Name : {{fullName}}</p>
+    ...
+    data: {
+        firstName: 'John',
+        lastName: 'Son',
+        fullName: 'John Son',
+    },
+    computed: {
+        // getter default
+        // setter
+        fullName: {
+            get: function() {
+                return this.firstName + ' ' + this.lastName;
+            }
+            set: function(val) {
+                const [firstName, lastName] = val.split(' ');
+                this.firstName = firstName;
+                this.lastName = lastName;
+            }
+        }
+    }
+```
+
+# ความแตกต่าง
+- Computed vs Methods
+    - computed มี cache
+    - methods ไม่มี cache
+- Computed vs Watchers
+    - computed observe ได้มากกว่า 1 ตัว
+    - watchers observe ได้ 1 ตัว
+    - watchers เป็น 2 way binding
