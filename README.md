@@ -224,7 +224,7 @@ methods: {
 ```
 
 # Forms
-  
+
 ex.1 show value
 ```
     <p>Message: {{message}}</p>
@@ -389,15 +389,16 @@ ex.2 getter setter
     - beforeCreate - ของใน `data`, `methods` ยังไม่ถูกสร้าง
     - created
 - ก่อนที่ Vue จะ compile DOM
-    - beforeMount - มีของใน `data`, `methods`, `computed` แล้ว สามารถ access ได้
+    - beforeMount - มีของใน `data`, `methods`, `computed` แล้วสามารถ access ได้
 - หลังจากที่ Vue compile DOM
-    - mounted - มีของใน `data`, `methods`, `computed` แล้ว สามารถ access ได้หมด  (add listener)
+    - mounted - มีของใน `data`, `methods`, `computed` แล้วสามารถ access ได้หมด  (add listener)
 - เมื่อมีการเปลี่ยนค่า 
     - beforeUpdate -> เมื่อ DOM จะ re-render เปลี่ยนค่าได้นะ
-    - updated -> เมื่อ DOM จะ re-render แล้ว ยังเปลี่ยนค่าได้นะ
+    - updated -> เมื่อ DOM จะ re-render แล้วยังเปลี่ยนค่าได้นะ
 - ก่อนที่ Vue จะถูกทำลาย
     - beforeDestroy (remove listener)
     - destroyed (app.$destroy())
+
 ex
 ```
 <body>
