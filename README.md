@@ -4,7 +4,7 @@
 # Table Content
 - [Install](#install)
 - [Template Syntax](#template-syntax)
-- [TMethods](#methods)
+- [Methods](#methods)
 - [Forms](#forms)
 - [Computed](#computed-recommended)
 - [LifeCycle](#lifeCycle)
