@@ -150,133 +150,212 @@
             ``` 
 
 # Methods
-
 ex.1
 ```
-<p>Hello: getReverse()</p>
-...
-data: {
-    message: 'Hello Angular'
-},
-methods: {
-    getReverse: function() {
-        return this.message.split('').reverse().join('')
-    }
-}
+<body>
+    <div id="app">
+        <p>Hello: getReverse()</p>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Angular'
+        },
+        methods: {
+            getReverse: function() {
+                return this.message.split('').reverse().join('')
+            }
+        }
+    })
+</script>
 ```
 ex.2
 ```
-<p>Hello: getReverse()</p>
-...
-data: {
-    message: 'Hello Angular'
-},
-methods: {
-    getReverse: function() {
-        return this.join(this.message.split('').reverse())
-    },
-    join: function(value) {
-        return value.join('')
-    }
-}
+<body>
+    <div id="app">
+        <p>Hello: getReverse()</p>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Angular'
+        },
+        methods: {
+            getReverse: function() {
+                return this.join(this.message.split('').reverse())
+            },
+            join: function(value) {
+                return value.join('')
+            }
+        }
+    })
+</script>
 ```
 ex.3 event
 ```
-<p>Count: {{count}}</p>
-<button v-on:click="addCounter">add</button>
-...
-data: {
-    count: 0
-},
-methods: {
-    addCounter: function(event) {
-        this.count += 1;
-    }
-}
+<body>
+    <div id="app">
+        <p>Count: {{count}}</p>
+        <button v-on:click="addCounter">add</button>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            count: 0
+        },
+        methods: {
+            addCounter: function(event) {
+                this.count += 1;
+            }
+        }
+    })
+</script>
 ```
 ex.4 value
 ```
-<p>Count: {{count}}</p>
-<button v-on:click="addCounter(1)">add</button>
-...
-data: {
-    count: 0
-},
-methods: {
-    addCounter: function(value) {
-        this.count += value;
-    }
-}
+<body>
+    <div id="app">
+        <p>Count: {{count}}</p>
+        <button v-on:click="addCounter(1)">add</button>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            count: 0
+        },
+        methods: {
+            addCounter: function(value) {
+                this.count += value;
+            }
+        }
+    })
+</script>
 ```
 ex.4 value + event
 ```
-<p>Count: {{count}}</p>
-<button v-on:click="addCounter(1, $event)">add</button>
-...
-data: {
-    count: 0
-},
-methods: {
-    addCounter: function(value, event) {
-        this.count += value;
-    }
-}
+<body>
+    <div id="app">
+        <p>Count: {{count}}</p>
+        <button v-on:click="addCounter(1, $event)">add</button>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            count: 0
+        },
+        methods: {
+            addCounter: function(value, event) {
+                this.count += value;
+            }
+        }
+    })
+</script>
 ```
 
 # Forms
 
 ex.1 show value
 ```
-    <p>Message: {{message}}</p>
-    <input :value="message"/>
-    ...
-    data: {
-        message: 'Hello Angular'
-    }
+<body>
+    <div id="app">
+        <p>Message: {{message}}</p>
+        <input :value="message"/>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Angular'
+        }
+    })
+</script>
 ```
 ex.2 checkbox
 ```
-    <p>Message: {{message}}</p>
-    <input :value="message"/>
-    <label for="checkbox">{{checked}}</label>
-    <input type="checkbox" id="checkbox" v-model="checked">
-    ...
-    data: {
-        message: 'Hello Angular',
-        checked: false
-    }
+<body>
+    <div id="app">
+        <p>Message: {{message}}</p>
+        <input :value="message"/>
+        <label for="checkbox">{{checked}}</label>
+        <input type="checkbox" id="checkbox" v-model="checked">
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Angular',
+            checked: false
+        }
+    })
+</script>
 ```
 ex.3 v-model+value -> checkbox value 
 ```
-    <p>Message: {{message}}</p>
-    <input :value="message"/>
-    <label for="checkbox">{{checked}}</label>
-    <input type="checkbox" id="checkbox" v-model="checked" true-value="yes" false-value="no">
-    ...
-    data: {
-        message: 'Hello Angular',
-        checked: 'no'
-    }
+<body>
+    <div id="app">
+        <p>Message: {{message}}</p>
+        <input :value="message"/>
+        <label for="checkbox">{{checked}}</label>
+        <input type="checkbox" id="checkbox" v-model="checked" true-value="yes" false-value="no">
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Angular',
+            checked: 'no'
+        }
+    })
+</script>
 ```
 
 ex.4 select v-bind
 ```
-    <select v-model="selected">
-        <option v-bind:value="{number: 1}">1</option>
-        <option v-bind:value="{number: 2}">2</option>
-    </select>
-    ...
-    data: {
-        selected: null
-    }
+<body>
+    <div id="app">
+        <select v-model="selected">
+            <option v-bind:value="{number: 1}">1</option>
+            <option v-bind:value="{number: 2}">2</option>
+        </select>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            selected: null
+        }
+    })
+</script>
 ```
 ex.5 input number แปลง เป็นให้
 ```
-    <input v-model.number="price" type="number"/>
-    ...
-    data: {
-        price: 0
-    }
+<body>
+    <div id="app">
+        <input v-model.number="price" type="number"/>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            price: 0
+        }
+    })
+</script>
 ```
 
 # Watchers 
@@ -284,43 +363,59 @@ ex.5 input number แปลง เป็นให้
 
 ex.1
 ```
-    <p>{{messageUpper}}</p>
-    <input v-model="message"/>
-    ...
-    data: {
-        message: '',
-        messageUpper: ''
-    },
-    watch: {
-        message: function() {
-            this.messageUpper = this.message.toUpperCase()
+<body>
+    <div id="app">
+        <p>{{messageUpper}}</p>
+        <input v-model="message"/>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: '',
+            messageUpper: ''
+        },
+        watch: {
+            message: function() {
+                this.messageUpper = this.message.toUpperCase()
+            }
         }
-    }
+    })
+</script>
 ```
 ex.2 auto complete
 หลีกเลี่ยง การใช้ arrow function ใน callback `(Recommended)`
 ```
-    <p>{{messageUpper}}</p>
-    <input v-model="message"/>
-    ...
-    data: {
-        message: '',
-        timeout: null,
-    },
-    methods: {
-        querySearch: function() {
-            console.log('hello')
+<body>
+    <div id="app">
+        <p>{{messageUpper}}</p>
+        <input v-model="message"/>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: '',
+            timeout: null,
+        },
+        methods: {
+            querySearch: function() {
+                console.log('hello')
+            }
+        },
+        watch: {
+            message: function() {
+                clearTimeout(this.timeout);
+                const _this = this;
+                this.timeout = setTimeout(function() {
+                    _this.querySearch();
+                }, 800)
+            }
         }
-    },
-    watch: {
-        message: function() {
-            clearTimeout(this.timeout);
-            const _this = this;
-            this.timeout = setTimeout(function() {
-                _this.querySearch();
-            }, 800)
-        }
-    }
+    })
+</script>
 ```
 
 # Computed `(Recommended)`
@@ -328,49 +423,65 @@ ex.2 auto complete
 
 ex.1
 ```
-    <p>Message : {{message}}</p>
-    <p>Reverse Message : {{reverseMessage}}</p>
-    <p>{{date}}</p>
-    <input v-model="message"/>
-    ...
-    data: {
-        message: 'Hello Angular',
-    },
-    computed: {
-        reverseMessage: function() {
-           return this.message.split('').reverse().join('')
+<body>
+    <div id="app">
+        <p>Message : {{message}}</p>
+        <p>Reverse Message : {{reverseMessage}}</p>
+        <p>{{date}}</p>
+        <input v-model="message"/>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Angular',
         },
-        date: function() {
-            console.log(this.message)
-            return new Date()
+        computed: {
+            reverseMessage: function() {
+            return this.message.split('').reverse().join('')
+            },
+            date: function() {
+                console.log(this.message)
+                return new Date()
+            }
         }
-    }
+    })
+</script>
 ```
 ex.2 getter setter
 ```
-    <p>First Name : {{firstName}}</p>
-    <p>Last Name : {{lastName}}</p>
-    <p>Full Name : {{fullName}}</p>
-    ...
-    data: {
-        firstName: 'John',
-        lastName: 'Son',
-        fullName: 'John Son',
-    },
-    computed: {
-        // getter default
-        // setter
-        fullName: {
-            get: function() {
-                return this.firstName + ' ' + this.lastName;
-            }
-            set: function(val) {
-                const [firstName, lastName] = val.split(' ');
-                this.firstName = firstName;
-                this.lastName = lastName;
+<body>
+    <div id="app">
+        <p>First Name : {{firstName}}</p>
+        <p>Last Name : {{lastName}}</p>
+        <p>Full Name : {{fullName}}</p>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+         data: {
+            firstName: 'John',
+            lastName: 'Son',
+            fullName: 'John Son',
+        },
+        computed: {
+            // getter default
+            // setter
+            fullName: {
+                get: function() {
+                    return this.firstName + ' ' + this.lastName;
+                }
+                set: function(val) {
+                    const [firstName, lastName] = val.split(' ');
+                    this.firstName = firstName;
+                    this.lastName = lastName;
+                }
             }
         }
-    }
+    })
+</script>
 ```
 
 # ความแตกต่าง
@@ -397,7 +508,7 @@ ex.2 getter setter
     - updated -> เมื่อ DOM จะ re-render แล้วยังเปลี่ยนค่าได้นะ
 - ก่อนที่ Vue จะถูกทำลาย
     - beforeDestroy (remove listener)
-    - destroyed (app.$destroy())
+    - destroyed `app.$destroy()`
 
 ex
 ```
