@@ -1,1243 +1,1211 @@
-# Vue 101
- ใช้ MVVM pattern
+# Basic Vue js
 
-# Table Content
-- [Install](#install)
-- [Template Syntax](#template-syntax)
-- [Methods](#methods)
-- [Forms](#forms)
-- [Computed](#computed-recommended)
-- [LifeCycle](#lifeCycle)
-- [Components](#components)
-- [Mixins](#mixins)
-- [Custom Directive](#custom-directive)
-- [Filter](#filter)
+## Install
+  > for development
+  ```
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  ```
+  > for production
+  ```
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  ```
 
-# Install 
-- สามารถใช้ cdn ได้
-```html
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-```
-- vue cli `(Recommended)`
+## Basic Rendering
+  ```
+    <body>
+      <div id="app">
+        {{message}}
+      </div>
+    </body>
+  ```
+  ```
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data: {
+          message: "Hello Vue!"
+        }
+      })
+    </script>
+  ```
 
-# App
-[code](https://jsbin.com/ficezivoji/edit?html,output)
-```html
-  <body>
+## Interpolations
+  ```
     <div id="app">
-      <p>Hello Vue</p>
+      <span>Message: {{message}}</span>
     </div>
-  </body>
-  <script>
-    const app = new Vue({})
+  ```
+
+  ```
+    <script>
+    const app = new Vue({
+      el: "#app",
+      data: {
+        message: "Hello Vue!"
+      }
+    })
   </script>
-```
+  ```
 
-# Template Syntax
-- Interpolations
-    
-- Directive
-    - v-[directive name]:[argument-name] // directive pattern
-    - v-if 
-        ```
-        <p v-if="type === 'A"> show </p>
-        ```
-    - v-else 
-        ```
-        <p v-if="type === 'A"> show </p>
-        <p v-else> not show </p>
-        ```
-    - v-else-if 
-    - v-show ใช้กับ css
-    - v-for loop ใน template
-        
-        ex.1
-        ```
-        <p v-for="(v, i) in list">{{v}}</p>
-        ...
-        data: {
-            list: [1,2,3,4]
-        }
-        ```
-        ex.2
-        ```
-        <p v-for="(value, key) in obj">{{value}}</p>
-        ...
-        data: {
-            obj: {
-                key1: 'value1',
-                key2: 'value2',
-                key3: 'value3',
-            }
-        }
-        ```
-    - v-bind access data ใน attribute
-        
-        ex.1
-        ```
-        <p v-bind:title>Hello Vue</p>
-        ...
-        data: {
-            title: 'Hello Angular'
-        }
-        ```
-
-        ex.2
-        ```
-        <p v-bind:[attr]>Hello Vue</p>
-        ...
-        data: {
-            attr: 'title',
-            title: 'Hello Angular'
-        }
-        ```
-    - v-on event listener ฟัง event ที่เกิดขึ้น
-        ```
-        <button v-on:click="count += 1">add</button>
-        ...
-        data: {
-            count: 0
-        }
-        ```
-
-- ShortHands
-    - v-bind
-        -> v-bind:title
-        -> :title
-    - v-on
-        -> v-on:click
-        -> @click
-
-- Modifiers
-    - v-[directive-name]:[argument-name].[modifier-name]
-    - v-[directive-name].[modifier-name]
-    - v-[directive-name]:[argument-name].[modifier-name].[modifier-name]
-
-        - v-model
-            
-            ex.1
-            ```
-                <p>Message: {{message}}</p>
-                <input v-model="message"/>
-                ...
-                data: {
-                    message: 'Hello Angular'
-                }
-            ```
-            ex.2 on key
-            ```
-                <p>Message: {{message}}</p>
-                <input v-model="message" v-on:keydown.enter="onKey"/>
-                ...
-                data: {
-                    message: 'Hello Angular'
-                },
-                methods: {
-                    onKey: function() {
-                        console.log('on enter key')
-                    }
-                }
-            ``` 
-            ex.3 on key command + c
-            ```
-                <p>Message: {{message}}</p>
-                <input v-model="message" v-on:keydown.meta.67="onKey"/>
-                ...
-                data: {
-                    message: 'Hello Angular'
-                },
-                methods: {
-                    onKey: function() {
-                        console.log('on enter key command + c')
-                    }
-                }
-            ``` 
-            ex.4 .lazy ทำที่หลังจาก เปลี่ยน event
-            ```
-                <p>Message: {{message}}</p>
-                <input v-model.lazy="message"/>
-                ...
-                data: {
-                    message: 'Hello Angular'
-                }
-            ``` 
-
-# Methods
-ex.1
-```html
-<body>
+  > add v-once : one-time interpolations that do not update
+  ```
     <div id="app">
-        <p>Hello: getReverse()</p>
+      <span v-once>Message: {{message}}</span>
     </div>
-</body>
-<script>
+  ```
+### JavaScript Expressions (Interpolations)
+  ```
+    <div id="app">
+      {{number + 1}}
+      <br/>
+      {{ok ? 'YES' : 'NO'}}
+      <br/>
+      {{ message.split('').reverse().join('')}}
+      <br/>
+      {{Math.random()}}
+      <br/>
+      {{new Date()}}
+    </div>
+  ```
+
+  ```
     const app = new Vue({
-        el: '#app',
-        data: {
-            message: 'Hello Angular'
-        },
-        methods: {
-            getReverse: function() {
-                return this.message.split('').reverse().join('')
-            }
-        }
+      el: "#app",
+      data: {
+        number: 0,
+        ok: true,
+        message: "Hello Vue!"
+      }
     })
-</script>
-```
-ex.2
-```html
-<body>
+  ```
+
+  > change interpolations
+  ```
     <div id="app">
-        <p>Hello: getReverse()</p>
+      <% number + 1 }}
     </div>
-</body>
-<script>
+  ```
+  ```
     const app = new Vue({
-        el: '#app',
-        data: {
-            message: 'Hello Angular'
-        },
-        methods: {
-            getReverse: function() {
-                return this.join(this.message.split('').reverse())
-            },
-            join: function(value) {
-                return value.join('')
-            }
-        }
+      el: "#app",
+      data: {
+        number: 0,
+      },
+      delimiters: ["<%", "}}"]
     })
-</script>
-```
-ex.3 event
-```html
-<body>
-    <div id="app">
-        <p>Count: {{count}}</p>
-        <button v-on:click="addCounter">add</button>
-    </div>
-</body>
-<script>
+  ```
+
+## Directive
+  > v-if
+  ```
+   <div id="app">
+      <p v-if="seen">Now you see me</p>
+   </div>
+  ```
+  ```
     const app = new Vue({
-        el: '#app',
-        data: {
-            count: 0
-        },
-        methods: {
-            addCounter: function(event) {
-                this.count += 1;
-            }
-        }
+      el: "#app",
+      data: {
+        seen: true,
+      },
     })
-</script>
-```
-ex.4 value
-```html
-<body>
+  ```
+  > if-else
+  ```
     <div id="app">
-        <p>Count: {{count}}</p>
-        <button v-on:click="addCounter(1)">add</button>
+      <p v-if="seen">Now you see me</p>
+      <p v-else>Now you can not see me</p>
     </div>
-</body>
-<script>
+  ```
+  ```
     const app = new Vue({
-        el: '#app',
-        data: {
-            count: 0
-        },
-        methods: {
-            addCounter: function(value) {
-                this.count += value;
-            }
-        }
+      el: "#app",
+      data: {
+        seen: true,
+      },
     })
-</script>
-```
-ex.4 value + event
-```html
-<body>
+  ```
+  > v-if-elseif
+  ```
     <div id="app">
-        <p>Count: {{count}}</p>
-        <button v-on:click="addCounter(1, $event)">add</button>
+      <p v-if="type === 'A'">Now you see me</p>
+      <p v-else-if="type === 'B'">Now you can not see me</p>
     </div>
-</body>
-<script>
+  ```
+  ```
     const app = new Vue({
-        el: '#app',
-        data: {
-            count: 0
-        },
-        methods: {
-            addCounter: function(value, event) {
-                this.count += value;
-            }
-        }
+      el: "#app",
+      data: {
+        type: 'A',
+      },
     })
-</script>
-```
-
-# Forms
-
-ex.1 show value
-```html
-<body>
+  ```
+  > v-if-else-if-else
+  ```
     <div id="app">
-        <p>Message: {{message}}</p>
-        <input :value="message"/>
+      <p v-if="type === 'A'">Now you see me</p>
+      <p v-else-if="type === 'B'">Now you can not see me</p>
+      <p v-else>Not A/B</p>
     </div>
-</body>
-<script>
+  ```
+  > v-show (use css display (if false use display:none))
+   ```
+   <div id="app">
+      <p v-show="seen">Now you see me</p>
+    </div>
+  ```
+  ```
     const app = new Vue({
-        el: '#app',
-        data: {
-            message: 'Hello Angular'
-        }
+      el: "#app",
+      data: {
+        seen: true,
+      },
     })
-</script>
-```
-ex.2 checkbox
-```html
-<body>
+  ```
+  > v-for
+  ```
     <div id="app">
-        <p>Message: {{message}}</p>
-        <input :value="message"/>
-        <label for="checkbox">{{checked}}</label>
-        <input type="checkbox" id="checkbox" v-model="checked">
+      <p v-for="l in list">{{l}}</p>
     </div>
-</body>
-<script>
+  ```
+  ```
     const app = new Vue({
-        el: '#app',
-        data: {
-            message: 'Hello Angular',
-            checked: false
-        }
+      el: "#app",
+      data: {
+        list: ["1", "2", "3", "4"],
+      },
     })
-</script>
-```
-ex.3 v-model+value -> checkbox value 
-```html
-<body>
+  ```
+  > v-for (with index)
+  ```
     <div id="app">
-        <p>Message: {{message}}</p>
-        <input :value="message"/>
-        <label for="checkbox">{{checked}}</label>
-        <input type="checkbox" id="checkbox" v-model="checked" true-value="yes" false-value="no">
+      <p v-for="(value, index) in list">{{index}}: {{value}}</p>
     </div>
-</body>
-<script>
+  ```
+  > v-for (Object)
+  ```
+    <div id="app">
+      <p v-for="value in object">{{value}}</p>
+    </div>
+  ```
+  ```
     const app = new Vue({
-        el: '#app',
-        data: {
-            message: 'Hello Angular',
-            checked: 'no'
+      el: "#app",
+      data: {
+        object: {
+          hello1: 'Hello 1',
+          hello2: 'Hello 2',
+          hello3: 'Hello 3',
         }
+      },
     })
-</script>
-```
-
-ex.4 select v-bind
-```html
-<body>
+  ```
+  > v-for (Object)(with key)
+  ```
     <div id="app">
-        <select v-model="selected">
-            <option v-bind:value="{number: 1}">1</option>
-            <option v-bind:value="{number: 2}">2</option>
-        </select>
+      <p v-for="(value, key) in object">{{key}}: {{value}}</p>
     </div>
-</body>
-<script>
+  ```
+  > v-for (Object)(with key and index)
+  ```
+    <div id="app">
+      <p v-for="(value, key, index) in object">{{index}} -> {{key}}: {{value}}</p>
+    </div>
+  ```
+  > v-bind (Arguments)
+  ```
+    <div id="app">
+      <p v-bind:title="title">Hello binding</p>
+    </div>
+  ```
+  ```
     const app = new Vue({
-        el: '#app',
-        data: {
-            selected: null
-        }
+      el: "#app",
+      data: {
+        title: 'Hello title'
+      },
     })
-</script>
-```
-ex.5 input number แปลง เป็นให้
-```html
-<body>
-    <div id="app">
-        <input v-model.number="price" type="number"/>
-    </div>
-</body>
-<script>
+  ```
+  > v-bind (Dynamic component)
+  ```
     const app = new Vue({
-        el: '#app',
-        data: {
-            price: 0
-        }
+      el: "#app",
+      data: {
+        attrname: "title",
+        title: 'Hello title'
+      },
     })
-</script>
-```
-
-# Watchers 
-    observe ตัวแปล เพื่อจะทำอะไรสักอย่าง
-
-ex.1
-```html
-<body>
+  ```
+  ```
     <div id="app">
-        <p>{{messageUpper}}</p>
-        <input v-model="message"/>
+      <p v-bind:[attrname]="title">Hello binding</p>
     </div>
-</body>
-<script>
+  ```
+  > v-on
+  ```
+    <div id="app">
+      <p>Counter: {{counter}} times.</p>
+      <button v-on:click="counter += 1">Add 1</button>
+    </div>
+  ```
+  ```
     const app = new Vue({
-        el: '#app',
-        data: {
-            message: '',
-            messageUpper: ''
-        },
-        watch: {
-            message: function() {
-                this.messageUpper = this.message.toUpperCase()
-            }
-        }
+      el: "#app",
+      data: {
+        counter: 0
+      },
     })
-</script>
-```
-ex.2 auto complete
-หลีกเลี่ยง การใช้ arrow function ใน callback `(Recommended)`
-```html
-<body>
+  ```
+
+### Shorthands
+  > v-bind
+  ```
     <div id="app">
-        <p>{{messageUpper}}</p>
-        <input v-model="message"/>
+      <p v-bind:title="title">Hello Shorthand 1</p>
+      <p :title="title">Hello Shorthand 2</p>
+      <p :[attrname]="title">Hello Shorthand 3</p>
     </div>
-</body>
-<script>
+  ```
+  ```
     const app = new Vue({
-        el: '#app',
-        data: {
-            message: '',
-            timeout: null,
-        },
-        methods: {
-            querySearch: function() {
-                console.log('hello')
-            }
-        },
-        watch: {
-            message: function() {
-                clearTimeout(this.timeout);
-                const _this = this;
-                this.timeout = setTimeout(function() {
-                    _this.querySearch();
-                }, 800)
-            }
-        }
+      el: "#app",
+      data: {
+        attrname: "title",
+        title: "This is title"
+      },
     })
-</script>
-```
-
-# Computed `(Recommended)`
-    มองสิ่งที่เปลี่ยนแปลงใน scope, สามารถ watch ได้หลายตัว
-
-ex.1
-```html
-<body>
+  ```
+  > v-on
+  ```
     <div id="app">
-        <p>Message : {{message}}</p>
-        <p>Reverse Message : {{reverseMessage}}</p>
-        <p>{{date}}</p>
-        <input v-model="message"/>
+      <p>Counter: {{counter}}</p>
+      <button v-on:click="counter += 1">Add 1</button>
+      <button @click="counter += 1">Add 1</button>
+      <button @[attrname]="counter += 1">Add 1</button>
     </div>
-</body>
-<script>
+  ```
+  ```
     const app = new Vue({
-        el: '#app',
-        data: {
-            message: 'Hello Angular',
-        },
-        computed: {
-            reverseMessage: function() {
-            return this.message.split('').reverse().join('')
-            },
-            date: function() {
-                console.log(this.message)
-                return new Date()
-            }
-        }
+      el: "#app",
+      data: {
+        attrname: "click",
+        counter: 0
+      },
     })
-</script>
+  ```
+
+## Methods
 ```
-ex.2 getter setter
-```html
-<body>
-    <div id="app">
-        <p>First Name : {{firstName}}</p>
-        <p>Last Name : {{lastName}}</p>
-        <p>Full Name : {{fullName}}</p>
-    </div>
-</body>
-<script>
-    const app = new Vue({
-        el: '#app',
-         data: {
-            firstName: 'John',
-            lastName: 'Son',
-            fullName: 'John Son',
-        },
-        computed: {
-            // getter default
-            // setter
-            fullName: {
-                get: function() {
-                    return this.firstName + ' ' + this.lastName;
-                }
-                set: function(val) {
-                    const [firstName, lastName] = val.split(' ');
-                    this.firstName = firstName;
-                    this.lastName = lastName;
-                }
-            }
-        }
-    })
-</script>
-```
-
-# ความแตกต่าง
-- Computed vs Methods
-    - computed มี cache
-    - methods ไม่มี cache
-- Computed vs Watchers
-    - computed observe ได้มากกว่า 1 ตัว
-    - watchers observe ได้ 1 ตัว
-    - watchers เป็น 2 way binding
-
-# LifeCycle
-![](https://vuejs.org/images/lifecycle.png)
-
-- ก่อนที่ Vue จะ create instance 
-    - beforeCreate - ของใน `data`, `methods` ยังไม่ถูกสร้าง
-    - created
-- ก่อนที่ Vue จะ compile DOM
-    - beforeMount - มีของใน `data`, `methods`, `computed` แล้วสามารถ access ได้
-- หลังจากที่ Vue compile DOM
-    - mounted - มีของใน `data`, `methods`, `computed` แล้วสามารถ access ได้หมด  (add listener)
-- เมื่อมีการเปลี่ยนค่า 
-    - beforeUpdate -> เมื่อ DOM จะ re-render เปลี่ยนค่าได้นะ
-    - updated -> เมื่อ DOM จะ re-render แล้วยังเปลี่ยนค่าได้นะ
-- ก่อนที่ Vue จะถูกทำลาย
-    - beforeDestroy (remove listener)
-    - destroyed `app.$destroy()`
-
-ex
-```html
-<body>
-    <div id="app">
-        <p>{{message}}</p>
-    </div>
-</body>
-<script>
-    const app = new Vue({
-        el: '#app',
-        beforeCreate() {
-            console.log('Vue ::beforeCreated::');
-        },
-        created() {
-            console.log('Vue ::created::');
-        },
-        beforeMount() {
-            console.log('Vue ::beforeMount::');
-        },
-        mounted() {
-            console.log('Vue ::mounted::');
-        },
-        beforeUpdate() {
-            console.log('Vue ::beforeUpdate::');
-        },
-        updated() {
-            console.log('Vue ::updated::');
-        },
-        beforeDestroy() {
-            console.log('Vue ::beforeDestroy::');
-        },
-        destroyed() {
-            console.log('Vue ::destroyed::');
-        },
-    })
-</script>
-``` 
-
-
-# Components
-    React -> virtual DOM <div> <span> <p>
-    Vue -> virtual DOM <div> <span> <p>
-    Angular -> shadow DOM <app-angular>
-
-```html
-Vue.component(name, { data: function() {}, template: 'html template' });
-```
-- `component`, data
-ex
-```html
-<body>
-    <div id="app">
-        <box-title></box-title>
-        <box-message></box-message>
-    </div>
-</body>
-<script>
-    Vue.component('box-title', {
-        data: function() {
-            return {
-                count: 0
-            }
-        },
-        template: `
-            <button v-on:click="count++">Count {{count}}</button>
-        `
-    });
-    Vue.component('box-message', {
-        data: function() {
-            return {
-                message: 'Hello',
-            }
-        },
-        template: `
-            <div>
-                <p>{{message}}</p>
-                <input v-bind="message"/>
-            </div>
-        `
-    });
-    const app = new Vue({
-        el: '#app'
-    })
-</script>
-```
-
-- `props` คือ data ที่ถูกส่งเข้าไปใน component
-```html
-<body>
-    <div id="app">
-        <box-title v-bind:count="count"></box-title>
-        <box-message></box-message>
-    </div>
-</body>
-<script>
-    Vue.component('box-title', {
-        props: ['count'],
-        data: function() {
-            rawCount: this.count
-        },
-        template: `
-            <button v-on:click="count++">Count {{rawCount}}</button>
-        `
-    });
-    Vue.component('box-message', {
-        props: {
-            message: {
-                type: 'string',
-                default: function() {
-                    return 'Hello'
-                }
-            }
-        },
-        data: function() {
-            return {
-                rawMessage: 'Hello',
-            }
-        },
-        template: `
-            <div>
-                <p>{{rawMessage}}</p>
-                <input v-bind="rawMessage"/>
-            </div>
-        `
-    });
-    const app = new Vue({
-        el: '#app',
-        data: {
-            count: 0
-        }
-    })
-</script>
-```
-
-- `emitting` คือ การส่ง data จากลูกไปหาแม่
-ex.1
-```html
-<body>
-    <div id="app">
-        {{count}}
-        <box-title v-bind:count="count" v-on:target-click="count+1"></box-title>
-    </div>
-</body>
-<script>
-    Vue.component('box-title', {
-        props: ['count'],
-        data: function() {
-            rawCount: this.count
-        },
-        template: `
-            <button v-on:click="$emit('target-click')">Count {{rawCount}}</button>
-        `
-    });
-    const app = new Vue({
-        el: '#app',
-        data: {
-            count: 0
-        }
-    })
-</script>
-```
-ex.2 emit + value
-```html
-<body>
-    <div id="app">
-        {{count}}
-        <box-title v-bind:count="count" v-on:target-click="count+$event"></box-title>
-    </div>
-</body>
-<script>
-    Vue.component('box-title', {
-        props: ['count'],
-        template: `
-            <button v-on:click="$emit('target-click', count + 1)">Count {{count}}</button>
-        `
-    });
-    const app = new Vue({
-        el: '#app',
-        data: {
-            count: 0
-        }
-    })
-</script>
-```
-
-ex.3 to methods emit + value
-```html
-<body>
-    <div id="app">
-        {{count}}
-        <box-title v-bind:count="count" v-on:target-click="onAdd($event)"></box-title>
-    </div>
-</body>
-<script>
-    Vue.component('box-title', {
-        props: ['count'],
-        methods: {
-            onClick: function() {
-                this.$emit('target-click', this.count + 1)
-            }
-        }
-        template: `
-            <button v-on:click="onClick">Count {{rawCount}}</button>
-        `
-    });
-    const app = new Vue({
-        el: '#app',
-        data: {
-            count: 0
-        },
-        methods: {
-            onAdd: function(event) {
-                this.count += event;
-            }
-        }
-    })
-</script>
-```
-- slot
- React -> props.children
- Angular -> <ng-content>
-
-ex.1 slot basic
-```html
-<body>
-    <div id="app">
-        <box-message>
-            <p>Hello Slot</p>
-        </box-message>
-    </div>
-</body>
-<script>
-    Vue.component('box-message', {
-        props: ['message']
-        template: `
-            <div>
-                <slot></slot>
-                <p>{{message}}</p>
-                <input v-bind="message"/>
-            </div>
-        `
-    });
-    const app = new Vue({
-        el: '#app'
-    })
-</script>
-```
-ex.2 slot title
-```html
-<body>
-    <div id="app">
-        <box-message>
-            <template v-slot:title>
-                <p>Hello Slot title</p>
-            </template>
-            <p>Hello Slot</p>
-        </box-message>
-    </div>
-</body>
-<script>
-    Vue.component('box-message', {
-        props: ['message'],
-        template: `
-            <div>
-                <slot name="title"></slot>
-                <p>{{message}}</p>
-                <input v-bind="message"/>
-            </div>
-        `
-    });
-    const app = new Vue({
-        el: '#app'
-    })
-</script>
-```
-
-ex.3 slot default
-```html
-<body>
-    <div id="app">
-        <box-message>
-            <template v-slot:title>
-                <p>Hello Slot title</p>
-            </template>
-            <template v-slot:span>
-                <p>Hello Slot span</p>
-            </template>
-            <template v-slot:default>
-                <p>Hello Slot default</p>
-            </template>
-        </box-message>
-    </div>
-</body>
-<script>
-    Vue.component('box-message', {
-        props: ['message'],
-        template: `
-            <div>
-                <slot name="title"></slot>
-                <slot></slot>
-                <slot name="span"></slot>
-                <p>{{message}}</p>
-                <input v-bind="message"/>
-            </div>
-        `
-    });
-    const app = new Vue({
-        el: '#app'
-    });
-</script>
-```
-
-- dynamic component
-ex.1
-```html
-<body>
-    <div id="app">
-        <button v-on:click="onSwitch">Switch</button>
-        <component v-bind:is="componentBoxTitle"></component>
-    </div>
-</body>
-<script>
-    Vue.component('box-title', {
-        data: function() {
-            return {
-                count: 0
-            }
-        },
-        template: `
-            <button v-on:click="count++">Count {{count}}</button>
-        `
-    });
-    Vue.component('box-message', {
-        props: ['message'],
-        template: `
-            <div>
-                <p>{{message}}</p>
-                <input v-bind="message"/>
-            </div>
-        `
-    });
-    const app = new Vue({
-        el: '#app',
-        data: {
-            componentBoxTitle: 'box-title'
-        },
-        methods: {
-            onSwitch: function() {
-                this.componentBoxTitle = this.componentBoxTitle === 'box-title' ? 'box-message' : 'box-title';
-            }
-        }
-    })
-</script>
-```
-ex.2 <keep-alive>
-```html
-<body>
-    <div id="app">
-        <button v-on:click="onSwitch">Switch</button>
-        <keep-alive>
-        <component v-bind:is="componentBoxTitle"></component>
-        </keep-alive>
-    </div>
-</body>
-<script>
-    Vue.component('comp-a', {
-        template: `
-            <div>
-                {{new Date()}}
-            </div>
-        `
-    });
-    Vue.component('comp-b', {
-        template: `
-            <div>
-                {{new Date()}}
-            </div>
-        `
-    });
-    const app = new Vue({
-        el: '#app',
-        data: {
-            componentBoxTitle: 'comp-a'
-        },
-        methods: {
-            onSwitch: function() {
-                this.componentBoxTitle = this.componentBoxTitle === 'comp-a' ? 'comp-a' : 'comp-b';
-            }
-        }
-    })
-</script>
-```
-ex.3 props
-```html
-<body>
-    <div id="app">
-        <button v-on:click="onSwitch">Switch</button>
-        <keep-alive>
-        <component v-bind:is="comp" v-bind="currentProps"></component>
-        </keep-alive>
-    </div>
-</body>
-<script>
-    Vue.component('comp-a', {
-         props: ['message'],
-        template: `
-            <div>
-                {{new Date()}}{{message}}
-            </div>
-        `
-    });
-    Vue.component('comp-b', {
-        props: ['message'],
-        template: `
-            <div>
-                {{new Date()}} {{message}}
-            </div>
-        `
-    });
-    const app = new Vue({
-        el: '#app',
-        data: {
-            comp: 'comp-a',
-        },
-        computed: {
-            currentProps: function() {
-                if (this.comp === 'comp-a') {
-                    return {
-                        message: 'Hello A'
-                    }
-                } else {
-                    return {
-                        message: 'Hello B'
-                    }
-                }
-            }
-        },
-        methods: {
-            onSwitch: function() {
-                this.comp = this.comp === 'comp-a' ? 'comp-b' : 'comp-a';
-            }
-        }
-    })
-</script>
-```
-
-# Mixins
-
-```html
-<body>
-    <div id="app">
-        <p>{{reverseMessage}}</p>
-    </div>
-    <div id="app-1">
-        <p>{{reverseMessage}}</p>
-    </div>
-</body>
-<script>
-    const app = new Vue({
-        el: '#app',
-        data: {
-            message: 'Hello Vue'
-        },
-        computed: {
-            reverseMessage: function() {
-                return this.message.split('').reverse().join('')
-            }
-        }
-    });
-    const app1 = new Vue({
-        el: '#app-1',
-        data: {
-            message: 'Hello Vue'
-        },
-        computed: {
-            reverseMessage: function() {
-                return this.message.split('').reverse().join('')
-            }
-        }
-    });
-</script>
-```
-
-use mixins
-
-```html
-<body>
-    <div id="app">
-        <p>{{reverseMessage}}</p>
-    </div>
-    <div id="app-1">
-        <p>{{reverseMessage}}</p>
-    </div>
-</body>
-<script>
-    const mixin = {
-        data: function() {
-            return {
-                message: 'Hello Vue'
-            }
-        },
-        computed: {
-            reverseMessage: function() {
-                return this.message.split('').reverse().join('')
-            }
-        },
-        created() {
-            console.log('mixin created')
-        }
-    }
-    const app = new Vue({
-        el: '#app',
-        mixins: [mixin],
-        created() {
-            console.log('app created')
-        }
-    });
-    const app1 = new Vue({
-        el: '#app-1',
-        mixins: [mixin],
-        data: {
-            message: 'Hello Vue 1'
-        },
-    });
-</script>
-```
-
-ex.1 global mixins
-
-```html
-<body>
-    <div id="app">
-        <p>{{reverseMessage}}</p>
-    </div>
-    <div id="app-1">
-        <p>{{reverseMessage}}</p>
-    </div>
-</body>
-<script>
-    Vue.mixins({
-        data: function() {
-            return {
-                message: 'Hello Vue'
-            }
-        },
-        computed: {
-            reverseMessage: function() {
-                return this.message.split('').reverse().join('')
-            }
-        },
-        created() {
-            console.log('mixin created')
-        }
-    });
-    const app = new Vue({
-        el: '#app',
-        created() {
-            console.log('app created')
-        }
-    });
-    const app1 = new Vue({
-        el: '#app-1',
-        data: {
-            message: 'Hello Vue 1'
-        },
-    });
-</script>
-```
-
-# Custom Directive
-
-[code](https://jsbin.com/duzesoyamo/edit?html,output)
-
-ex.1
-```html
-<body>
-    <div id="app">
-        <p v-boyis>hello</p>
-        <p v-boyis-arg:lower>Hello</p>
-        <p v-boyis-arg:upper>Hello</p>
-
-        <p v-boyis-mod:lower.font-big>Hello</p>
-        <p v-boyis-mod:lower.font-small.font-red>Hello</p>
-    </div>
-</body>
-<script>
-    const app = new Vue({
-        el: '#app',
-        data: {
-            message: 'Hello Vue!'
-        },
-        directives: {
-            /**
-            * el - element
-            * binding - name, modifier ....
-            */
-            'boyis': function(el, binding) {
-                el.textContent = el.textContent.toUpperCase();
-
-            },
-            'boyis-arg': function(el, binding) {
-                const {arg} = binding;
-                if (arg == 'lower') {
-                    el.textContent = el.textContent.toLowerCase();
-                } else {
-                    el.textContent = el.textContent.toUpperCase();
-                }
-            },
-            'boyis-mod': function(el, binding) {
-                const { arg, modifiers } = binding;
-                if (arg == 'lower') {
-                    el.textContent = el.textContent.toLowerCase();
-                } else {
-                    el.textContent = el.textContent.toUpperCase();
-                }
-
-                if (modifiers['font-small']) {
-                    el.style.fontSize = '8px';
-                } 
-                
-                if (modifiers['font-big']) {
-                    el.style.fontSize = '14px';
-                }
-
-                if (modifiers['font-red']) {
-                    el.style.color = 'red';
-                } 
-
-                if (modifiers['font-blue']) {
-                    el.style.color = 'blue';
-                } 
-            },
-        }
-    })
-</script>
-```
-ex.2 global
-```html
-<body>
   <div id="app">
-    <p v-boyis>hello</p>
-    <p v-boyis-arg:lower>Hello</p>
-    <p v-boyis-arg:upper>Hello</p>
-
-    <p v-boyis-mod:lower.font-big.font-blue>Hello</p>
-    <p v-boyis-mod:lower.font-small.font-red>Hello</p>
+    <p>{{getReverse()}}</p>
   </div>
-</body>
-<script>
-  Vue.directive('boyis', function(el, binding) {
+```
+```
+  const app = new Vue({
+    el: "#app",
+    data: {
+      message: 'Hello World'
+    },
+    methods: {
+      getReverse: function () {
+        return this.message.split('').reverse().join('');
+      }
+    },
+  })
+```
+```
+  <div id="app">
+    <p v-bind:title="getReverse()">{{message}}</p>
+  </div>
+```
+```
+  const app = new Vue({
+    el: "#app",
+    data: {
+      message: 'Hello World'
+    },
+    methods: {
+      getReverse: function () {
+        return this.message.split('').reverse().join('');
+      }
+    },
+  })
+```
+
+## Event Handling
+```
+  <div id="app">
+    <p>Counter: {{counter}} times.</p>
+    <button v-on:click="addCounter">Add 1</button>
+  </div>
+```
+```
+const app = new Vue({
+    el: "#app",
+    data: {
+      counter: 0
+    },
+    methods: {
+      addCounter: function() {
+        this.counter += 1;
+      }
+    },
+  })
+```
+> with event
+```
+  const app = new Vue({
+      el: "#app",
+      data: {
+        counter: 0
+      },
+      methods: {
+        addCounter: function(event) {
+          this.counter += 1;
+          console.log(event.target.tagName);
+        }
+      },
+    })
+```
+> specific param
+```
+<div id="app">
+  <p>Counter: {{counter}} times.</p>
+  <button v-on:click="addCounter(counter)">Add 1</button>
+</div>
+```
+```
+  const app = new Vue({
+    el: "#app",
+    data: {
+      counter: 0
+    },
+    methods: {
+      addCounter: function(counter) {
+        this.counter = counter + 1;
+      }
+    },
+  })
+```
+> param event
+```
+  <div id="app">
+    <p>Counter: {{counter}} times.</p>
+    <button v-on:click="addCounter(counter, $event)">Add 1</button>
+  </div>
+```
+```
+  const app = new Vue({
+    el: "#app",
+    data: {
+      counter: 0
+    },
+    methods: {
+      addCounter: function(counter, event) {
+        this.counter = counter + 1;
+        console.log(event.target.tagName);
+      }
+    },
+  })
+```
+
+### Modifiers
+```
+<div id="app">
+  <p>Counter: {{counter}} times.</p>
+  <button v-on:click.once="addCounter(counter, $event)">Add 1</button>
+</div>
+```
+```
+const app = new Vue({
+  el: "#app",
+  data: {
+    counter: 0
+  },
+  methods: {
+    addCounter: function(counter, event) {
+      this.counter = counter + 1;
+      console.log(event.target.tagName);
+    }
+  },
+})
+```
+### KeyModifiers
+```
+<div id="app">
+  <!-- <input v-model="message" v-on:keyup.enter="onEnter"> -->
+  <!-- <input v-model="message" v-on:keyup.space="onEnter"> -->
+  <!-- <input v-model="message" v-on:keydown.meta.67="onEnter"> -->
+  <!-- <input v-model="message" v-on:keyup.enter="onEnter"> -->
+</div>
+```
+```
+const app = new Vue({
+  el: "#app",
+  data: {
+    message: 'hello'
+  },
+  methods: {
+    onEnter: function() {
+      console.log(this.message)
+    }
+  },
+})
+```
+
+## Form Input Binding
+  > basic v-model
+  ```
+    <div id="app">
+      <input v-model="message">
+      <p>Message is : {{message}}</p>
+    </div>
+  ```
+  > input checkbox
+  ```
+    <div id="app">
+      <input v-model="message">
+      <p>Message is : {{message}}</p>
+      <input type="checkbox" id="checkbox" v-model="checked">
+      <label for="checkbox">{{ checked }}</label>
+    </div>
+  ```
+  ```
+  const app = new Vue({
+    el: "#app",
+    data: {
+      message: "",
+      checked: false,
+    },
+  })
+```
+
+### Value binding
+  ```
+  <div id="app">
+    <p>Radio: {{type}}</p>
+    <input type="radio" v-model="type" v-bind:value="a">A
+    <input type="radio" v-model="type" value="B">B
+    <p>Checkbox: {{check}}</p>
+    <input type="checkbox" v-model="check" true-value="yes" false-value="no">
+    <p>Select {{selected}}</p>
+    <select v-model="selected">
+      <option v-bind:value="{ number: 1 }">1</option>
+      <option v-bind:value="{ number: 2 }">2</option>
+    </select>
+  </div>
+```
+  ```
+    const app = new Vue({
+        el: "#app",
+        data: {
+          a: "A",
+          type: '',
+          check: '',
+          selected: 0,
+        },
+      })
+  ```
+
+### Modifiers
+  > .lazy
+
+    <div id="app">
+      <p>Title : {{title}}</p>
+      <input type="text" v-model.lazy="title">
+    </div>
+
+    const app = new Vue({
+      el: "#app",
+      data: {
+        title: "",
+      },
+    })
+
+  > .trim
+
+    <div id="app">
+      <p>Title : {{title}}</p>
+      <input type="text" v-model.trim="title">
+    </div>
+
+    const app = new Vue({
+      el: "#app",
+      data: {
+        title: "",
+      },
+    })
+
+  > .number
+
+      <div id="app">
+        <p>Age : {{age}}</p>
+        <input type="number" v-model.number="age">
+      </div>
+
+      const app = new Vue({
+        el: "#app",
+        data: {
+          age: 0,
+        },
+      })
+
+
+## Watchers
+  ```
+    <div id="app">
+      <p>Search : {{search}}</p>
+      <input type="text" v-model="search">
+    </div>
+  ```
+  ```
+    const app = new Vue({
+      el: "#app",
+      data: {
+        search: "",
+        timeout: null,
+      },
+      watch: {
+        search: function () {
+          clearTimeout(this.timeout);
+          const _this = this;
+          this.timeout = setTimeout(function () {
+            _this.querySearch();
+          }, 500);
+        }
+      },
+      methods: {
+        querySearch: function () {
+          console.log(this.search);
+        }
+      },
+    })
+  ```
+
+## Computed
+  ```
+    <div id="app">
+      {{ message.split('').reverse().join('') }}
+    </div>
+  ```
+
+  ```
+    <div id="app">
+      <p>Message : {{message}}</p>
+      <p>Reverse Message : {{reversedMessage}}</p>
+    </div>
+  ```
+  ```
+    const app = new Vue({
+      el: "#app",
+      data: {
+        message: 'Hello World',
+      },
+      computed: {
+        reversedMessage: function() {
+          return this.message.split('').reverse().join('')
+        }
+      },
+    })
+  ```
+
+  ### Computed Setter
+  > Computed default is getter
+
+    <div id="app">
+      <p>Full name: {{fullName}}</p>
+      first-name: <input v-model="firstName">
+      last-name: <input v-model="lastName">
+    </div>
+
+    const app = new Vue({
+      el: "#app",
+      data: {
+        firstName: '',
+        lastName: '',
+      },
+      computed: {
+        fullName: {
+          get: function() {
+            return [this.firstName, this.lastName].join(' ');
+          },
+          set: function(value) {
+            const [firstName, lastName] = value.split(' ');
+            this.firstName = firstName;
+            this.lastName = lastName;
+          }
+        }
+      },
+    })
+
+  ### Computed Caching vs Methods
+  ```
+    <div id="app">
+      <input v-model="message">
+      <p>Computed: {{comp}}</p>
+      <p>Method: {{method()}}</p>
+    </div>
+  ```
+  ```
+  const app = new Vue({
+    el: "#app",
+    data: {
+      message: '',
+    },
+    computed: {
+      comp: function() {
+        return new Date();
+      }
+    },
+    methods: {
+      method: function() {
+        return new Date();
+      }
+    },
+  })
+  ```
+
+  ### Computed vs Watched Property
+
+## LifeCycle
+- ก่อน create vue instance
+ 	  - beforeCreate
+	  - created
+
+      ```
+      <div id="app">
+        <p>Message: {{message}}</p>
+        <input v-model="message" ref="input">
+      </div>
+      ```
+      ```
+        const app = new Vue({
+            el: "#app",
+            data: {
+              title: "Hello Title",
+              helloCreate: "Hello create",
+              message: 'Hello World!',
+            },
+            beforeCreate() {
+              console.log('before create: ', this.message);
+              // console.log(document.getElementsByTagName('p')[0].innerHTML = "{{title}}")
+            },
+            created() {
+              console.log('created: ', this.message);
+              // console.log(document.getElementsByTagName('p')[0].innerHTML = "{{helloCreate}}")
+            },
+          })
+      ```
+
+  - ก่อน DOM สร้าง
+	  - beforeMount
+
+  - หลัง DOM สร้าง
+	  - mounted
+
+  - ก่อน DOM re-renders
+	  - beforeUpdate
+
+  - หลัง DOM re-renders
+	  - updated
+
+    ```
+      beforeUpdate() {
+        console.log('before updated: ', this.$refs.input.value)
+        this.message = this.message.toUpperCase();
+      },
+      updated() {
+        console.log('updated: ', this.$refs.input.value)
+      },
+    ```
+
+  - ก่อน Vue instance ถูกทำลาย
+	  - beforeDestroy
+
+  - หลัง Vue instance ถูกทำลาย
+	  - destroyed
+
+    ```
+     <button @click="destroy()">Destroy</button>
+    ```
+
+    ```
+    beforeDestroy() {
+      console.log('before destroy', this.$refs.input);
+    },
+    destroyed() {
+      console.log('destroyed', this.$refs.input);
+    },
+    ```
+
+## Basic Components
+  > basic component
+
+  ```
+    <div id="app">
+      <button-counter></button-counter>
+    </div>
+  ```
+  ```
+    Vue.component('box-title', {
+      data: function() {
+        return {
+          count: 0,
+        }
+      },
+      template: `<button @click="count++">Count: {{count}}</button>`
+    });
+    const app = new Vue({
+      el: "#app",
+    })
+  ```
+  > Props
+  ```
+    <div id="app">
+      <box-message message="This is message"></box-message>
+    </div>
+  ```
+  ```
+    Vue.component('box-message', {
+      props: ['message'],
+      template: `<h1>{{message}}</h1>`
+    });
+    const app = new Vue({
+      el: "#app",
+    })
+  ```
+  > With data
+  ```
+    <div id="app">
+      <box-message  v-bind:message="message"></box-message>
+    </div>
+  ```
+  ```
+    Vue.component('box-message', {
+      props: ['message'],
+      template: `<h1>{{message}}</h1>`
+    });
+    const app = new Vue({
+      el: "#app",
+      data: {
+        message: "This is message"
+      }
+    })
+  ```
+
+  ### Emitting
+  ```
+    <div id="app">
+      <p>Count: {{count}}</p>
+      <button v-on:click="count += 1">Button</button>
+      <custom-button v-on:click="count += 1"></custom-button>
+    </div>
+  ```
+  ```
+    Vue.component('custom-button', {
+      template: `<button @click="$emit('click')">Button</button>`
+    });
+    const app = new Vue({
+      el: "#app",
+      data: {
+        count: 0,
+      }
+    })
+  ```
+  > with param
+  ```
+      <div id="app">
+        <p>Count: {{count}}</p>
+        <button v-on:click="count += 1">Button</button>
+        <custom-button v-on:click="count += $event"></custom-button>
+      </div>
+  ```
+  ```
+  Vue.component('custom-button', {
+    data: function() {
+      return {
+        count: 0
+      }
+    },
+    template: `<button @click="$emit('click', ++count)">Button</button>`
+  });
+  ```
+  > call on method
+  ```
+    Vue.component('custom-button', {
+      data: function() {
+        return {
+          count: 0
+        }
+      },
+      methods: {
+        onClick: function() {
+          this.$emit('click', ++this.count)
+        }
+      },
+      template: `<button @click="onClick">Button</button>`
+    });
+  ```
+  > call on method on main component
+  ```
+    <div id="app">
+      <p>Count: {{count}}</p>
+      <button v-on:click="onClick(1)">Button</button>
+      <custom-button v-on:click="onClick"></custom-button>
+    </div>
+  ```
+  ```
+    Vue.component('custom-button', {
+      data: function() {
+        return {
+          count: 0
+        }
+      },
+      methods: {
+        onClick: function() {
+          this.$emit('click', ++this.count)
+        }
+      },
+      template: `<button @click="onClick">Button</button>`
+    });
+    const app = new Vue({
+      el: "#app",
+      data: {
+        count: 0,
+      },
+      methods: {
+        onClick: function(value) {
+          this.count += value;
+        }
+      }
+    })
+  ```
+  > with naming
+  ```
+    <div id="app">
+      <p>Count: {{count}}</p>
+      <button v-on:click="onClick(1)">Button</button>
+      <custom-button v-on:target-name="onClick"></custom-button>
+    </div>
+  ```
+  ```
+    Vue.component('custom-button', {
+      data: function() {
+        return {
+          count: 0
+        }
+      },
+      methods: {
+        onClick: function() {
+          this.$emit('target-name', ++this.count)
+        }
+      },
+      template: `<button @click="onClick">Button</button>`
+    });
+  ```
+
+## Slot
+```
+  <div id="app">
+    <box-message>
+      <p>Hello World!</p>
+    </box-message>
+  </div>
+```
+```
+  Vue.component('box-message', {
+    template: `<div>
+      <slot></slot>
+    </div>`
+  });
+```
+> default content
+```
+  <div id="app">
+    <box-message>
+      <span>{{message}}</span>
+    </box-message>
+  </div>
+```
+```
+  Vue.component('box-message', {
+    template: `<div>
+      <slot>This is message</slot>
+    </div>`
+  });
+  const app = new Vue({
+    el: "#app",
+    data: {
+      message: "This is message"
+    }
+  })
+```
+> with name
+```
+ <div id="app">
+    <box-message>
+      <template v-slot:message>
+        <p>Hello World!</p>
+      </template>
+      <template v-slot:default>
+        <span>This is default</span>
+      </template>
+      <template v-slot:title>
+        <span>This is title</span>
+      </template>
+    </box-message>
+  </div>
+```
+```
+  Vue.component('box-message', {
+    template: `<div>
+      <slot name="message"></slot>
+      <slot></slot>
+      <slot name="title"></slot>
+    </div>`
+  });
+```
+> scope
+
+## Dynamic Component
+  ```
+    <div id="app">
+      <button v-on:click="onSwitch">Switch</button>
+      <component v-bind:is="currentTabComponent"></component>
+    </div>
+  ```
+  ```
+    Vue.component('component-one', {
+      template: `<div>component-one</div>`,
+      created() {
+        console.log('component-one created');
+      },
+      destroyed() {
+        console.log('component-one destroy');
+      },
+    });
+    Vue.component('component-two', {
+      template: `<div>component-two</div>`,
+      created() {
+        console.log('component-two created');
+      },
+      destroyed() {
+        console.log('component-two destroy');
+      }
+    });
+    const app = new Vue({
+      el: "#app",
+      data: {
+        currentTabComponent: 'component-one'
+      },
+      methods: {
+        onSwitch: function() {
+          this.currentTabComponent = this.currentTabComponent === 'component-one' ? 'component-two' : 'component-one';
+        }
+      },
+    })
+  ```
+  > keep-alive
+  ```
+    <div id="app">
+      <button v-on:click="onSwitch">Switch</button>
+      <keep-alive>
+        <component v-bind:is="currentTabComponent"></component>
+      </keep-alive>
+    </div>
+  ```
+  ```
+    Vue.component('component-one', {
+      template: `<div>component-one {{new Date()}}</div>`,
+      created() {
+        console.log('component-one created');
+      },
+      destroyed() {
+        console.log('component-one destroy');
+      },
+    });
+    Vue.component('component-two', {
+      template: `<div>component-two {{new Date()}}</div>`,
+      created() {
+        console.log('component-two created');
+      },
+      destroyed() {
+        console.log('component-two destroy');
+      }
+    });
+  ```
+
+## Mixin
+  ### Basic
+  ```
+    <div id="app">
+      {{message}}
+      {{callback()}}
+    </div>
+  ```
+  ```
+    var mixin = {
+      data: function () {
+        return {
+          message: 'Hello',
+        }
+      },
+      created() {
+        console.log('mixin called 1')
+      },
+      methods: {
+        callback: function() {
+          console.log('Hello 1');
+        }
+      },
+    }
+
+    var mixin2 = {
+      data: function() {
+        return {
+          mixin2: 'Mixin2',
+          message: 'Hello 2',
+        }
+      },
+      created() {
+        console.log('mixin called 2')
+      },
+      methods: {
+        callback: function() {
+          console.log('Hello 2');
+        }
+      },
+    }
+
+    const app = new Vue({
+      el: "#app",
+      mixins: [mixin, mixin2],
+      data: {
+        hello: 'Hello',
+        message: 'Hey myself!'
+      },
+      created() {
+        console.log('Component called');
+        console.log(this.$data);
+      },
+      methods: {
+        callback: function() {
+          console.log('Hello myself');
+        }
+      },
+    })
+  ```
+  ### Global Mixin
+  ```
+    <div id="app">
+      {{message}}
+    </div>
+    <div id="app-2">
+      {{message}}
+      <input v-model="message">
+    </div>
+  ```
+  ```
+    Vue.mixin({
+      data: function() {
+        return {
+          message: 'Hello'
+        }
+      }
+    })
+
+    const app = new Vue({
+      el: "#app",
+    })
+
+    const app1 = new Vue({
+      el: "#app-2",
+    })
+  ```
+
+## Custom Directive
+```
+  <div id="app">
+    <p v-text-ul>{{message}}</p>
+  </div>
+```
+```
+   Vue.directive('text-ul', function(el, binding) {
     el.textContent = el.textContent.toUpperCase();
-  });
-  Vue.directive('boyis-arg', function(el, binding) {
-    const {arg} = binding;
-    if (arg == 'lower') {
-        el.textContent = el.textContent.toLowerCase();
-    } else {
-        el.textContent = el.textContent.toUpperCase();
-    }
   })
-  Vue.directive('boyis-mod', function(el, binding) {
-    const { arg, modifiers } = binding;
-    if (arg == 'lower') {
-        el.textContent = el.textContent.toLowerCase();
-    } else {
-        el.textContent = el.textContent.toUpperCase();
-    }
 
-    if (modifiers['font-small']) {
-        el.style.fontSize = '8px';
-    } 
-    
-    if (modifiers['font-big']) {
-        el.style.fontSize = '14px';
-    }
-
-    if (modifiers['font-red']) {
-        el.style.color = 'red';
-    } 
-
-    if (modifiers['font-blue']) {
-        el.style.color = 'blue';
-    } 
-  });
   const app = new Vue({
-    el: '#app',
+    el: "#app",
     data: {
-        message: 'Hello Vue!'
+      message: "Hello"
     }
   })
-</script>
+```
+> with arg
+```
+  <div id="app">
+    <p v-text-ul:lower>{{message}}</p>
+  </div>
+```
+```
+  Vue.directive('text-ul', function(el, binding) {
+    const arg = binding.arg;
+    if (arg === 'lower') {
+      el.textContent = el.textContent.toLowerCase();
+    } else {
+      el.textContent = el.textContent.toUpperCase();
+    }
+  })
+```
+> with modifiers
+```
+  <div id="app">
+    <p v-text-ul:lower.font-blue.font-small>{{message}}</p>
+  </div>
+```
+```
+  Vue.directive('text-ul', function(el, binding) {
+    const arg = binding.arg;
+    if (arg === 'lower') {
+      el.textContent = el.textContent.toLowerCase();
+    } else {
+      el.textContent = el.textContent.toUpperCase();
+    }
+    if (binding.modifiers['font-red']) {
+      el.style.color = 'red';
+    } else if (binding.modifiers['font-blue']) {
+      el.style.color = 'blue';
+    }
+    if (binding.modifiers['font-big']) {
+      el.style.fontSize = 50 + 'px';
+    } else if (binding.modifiers['font-small']) {
+      el.style.fontSize = 5 + 'px';
+    }
+  })
 ```
 
-# Filter
+## Filter
+```
+<div id="app">
+  <p>{{message | text('upper')}}</p>
+</div>
+```
+```
+Vue.filter('text', function(...args) {
+  let value = args.shift();
+  if (!value) return '';
+  if (args.includes('lower')) {
+    value = value.toLowerCase();
+  } else {
+    value = value.toUpperCase();
+  }
+  return value;
+})
 
-[code](https://jsbin.com/supoyuponu/edit?html,output)
-```html
-<body>
-  <div id="app">
-    <p>{{message | text-up('lower') | first-letter}}</p>
-
-  </div>
-</body>
-<script>
-  Vue.filter('text-up', function(value, type) {
-    return type === 'lower'? value.toLowerCase(): value.toUpperCase();
-  });
-  Vue.filter('first-letter', function(value, type) {
-    return value[0].toUpperCase()+ value.slice(1);
-  });
-  const app = new Vue({
-    el: '#app',
-    data: {
-        message: 'Hello Vue!'
-    }
-  })
-</script>
+const app = new Vue({
+  el: "#app",
+  data: {
+    message: "Hello"
+  },
+})
 ```
