@@ -8,34 +8,52 @@
   </head>
   <body>
     <div id="app">
-        <box-message>
-            <template v-slot:title>
-                <p>Hello Slot title</p>
-            </template>
-            <template v-slot:span>
-                <p>Hello Slot span</p>
-            </template>
-            <template v-slot:default>
-                <p>Hello Slot default</p>
-            </template>
-        </box-message>
+        <button v-on:click="onSwitch">Switch</button>
+        <keep-alive>
+        <component v-bind:is="comp" v-bind="currentProps"></component>
+        </keep-alive>
     </div>
 </body>
 <script>
-    Vue.component('box-message', {
+    Vue.component('comp-a', {
+         props: ['message'],
+        template: `
+            <div>
+                {{new Date()}}{{message}}
+            </div>
+        `
+    });
+    Vue.component('comp-b', {
         props: ['message'],
         template: `
             <div>
-                <slot name="title"></slot>
-                <slot></slot>
-                <slot name="span"></slot>
-                <p>{{message}}</p>
-                <input v-bind="message"/>
+                {{new Date()}} {{message}}
             </div>
         `
     });
     const app = new Vue({
-        el: '#app'
-    });
+        el: '#app',
+        data: {
+            comp: 'comp-a',
+        },
+        computed: {
+            currentProps: function() {
+                if (this.comp === 'comp-a') {
+                    return {
+                        message: 'Hello A'
+                    }
+                } else {
+                    return {
+                        message: 'Hello B'
+                    }
+                }
+            }
+        },
+        methods: {
+            onSwitch: function() {
+                this.comp = this.comp === 'comp-a' ? 'comp-b' : 'comp-a';
+            }
+        }
+    })
 </script>
 </html>

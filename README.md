@@ -821,3 +821,137 @@ ex.3 slot default
     });
 </script>
 ```
+
+- dynamic component
+ex.1
+```html
+<body>
+    <div id="app">
+        <button v-on:click="onSwitch">Switch</button>
+        <component v-bind:is="componentBoxTitle"></component>
+    </div>
+</body>
+<script>
+    Vue.component('box-title', {
+        data: function() {
+            return {
+                count: 0
+            }
+        },
+        template: `
+            <button v-on:click="count++">Count {{count}}</button>
+        `
+    });
+    Vue.component('box-message', {
+        props: ['message'],
+        template: `
+            <div>
+                <p>{{message}}</p>
+                <input v-bind="message"/>
+            </div>
+        `
+    });
+    const app = new Vue({
+        el: '#app',
+        data: {
+            componentBoxTitle: 'box-title'
+        },
+        methods: {
+            onSwitch: function() {
+                this.componentBoxTitle = this.componentBoxTitle === 'box-title' ? 'box-message' : 'box-title';
+            }
+        }
+    })
+</script>
+```
+ex.2 <keep-alive>
+```html
+<body>
+    <div id="app">
+        <button v-on:click="onSwitch">Switch</button>
+        <keep-alive>
+        <component v-bind:is="componentBoxTitle"></component>
+        </keep-alive>
+    </div>
+</body>
+<script>
+    Vue.component('comp-a', {
+        template: `
+            <div>
+                {{new Date()}}
+            </div>
+        `
+    });
+    Vue.component('comp-b', {
+        template: `
+            <div>
+                {{new Date()}}
+            </div>
+        `
+    });
+    const app = new Vue({
+        el: '#app',
+        data: {
+            componentBoxTitle: 'comp-a'
+        },
+        methods: {
+            onSwitch: function() {
+                this.componentBoxTitle = this.componentBoxTitle === 'comp-a' ? 'comp-a' : 'comp-b';
+            }
+        }
+    })
+</script>
+```
+ex.3 props
+```html
+<body>
+    <div id="app">
+        <button v-on:click="onSwitch">Switch</button>
+        <keep-alive>
+        <component v-bind:is="comp" v-bind="currentProps"></component>
+        </keep-alive>
+    </div>
+</body>
+<script>
+    Vue.component('comp-a', {
+         props: ['message'],
+        template: `
+            <div>
+                {{new Date()}}{{message}}
+            </div>
+        `
+    });
+    Vue.component('comp-b', {
+        props: ['message'],
+        template: `
+            <div>
+                {{new Date()}} {{message}}
+            </div>
+        `
+    });
+    const app = new Vue({
+        el: '#app',
+        data: {
+            comp: 'comp-a',
+        },
+        computed: {
+            currentProps: function() {
+                if (this.comp === 'comp-a') {
+                    return {
+                        message: 'Hello A'
+                    }
+                } else {
+                    return {
+                        message: 'Hello B'
+                    }
+                }
+            }
+        },
+        methods: {
+            onSwitch: function() {
+                this.comp = this.comp === 'comp-a' ? 'comp-b' : 'comp-a';
+            }
+        }
+    })
+</script>
+```
