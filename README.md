@@ -3,13 +3,13 @@
 
 # Install 
 - สามารถใช้ cdn ได้
-```
+```html
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 ```
 - vue cli `(Recommended)`
 
 # App
-```
+```html
   <body>
     <div id="app">
       <p>Hello Vue</p>
@@ -151,7 +151,7 @@
 
 # Methods
 ex.1
-```
+```html
 <body>
     <div id="app">
         <p>Hello: getReverse()</p>
@@ -172,7 +172,7 @@ ex.1
 </script>
 ```
 ex.2
-```
+```html
 <body>
     <div id="app">
         <p>Hello: getReverse()</p>
@@ -196,7 +196,7 @@ ex.2
 </script>
 ```
 ex.3 event
-```
+```html
 <body>
     <div id="app">
         <p>Count: {{count}}</p>
@@ -218,7 +218,7 @@ ex.3 event
 </script>
 ```
 ex.4 value
-```
+```html
 <body>
     <div id="app">
         <p>Count: {{count}}</p>
@@ -240,7 +240,7 @@ ex.4 value
 </script>
 ```
 ex.4 value + event
-```
+```html
 <body>
     <div id="app">
         <p>Count: {{count}}</p>
@@ -265,7 +265,7 @@ ex.4 value + event
 # Forms
 
 ex.1 show value
-```
+```html
 <body>
     <div id="app">
         <p>Message: {{message}}</p>
@@ -282,7 +282,7 @@ ex.1 show value
 </script>
 ```
 ex.2 checkbox
-```
+```html
 <body>
     <div id="app">
         <p>Message: {{message}}</p>
@@ -302,7 +302,7 @@ ex.2 checkbox
 </script>
 ```
 ex.3 v-model+value -> checkbox value 
-```
+```html
 <body>
     <div id="app">
         <p>Message: {{message}}</p>
@@ -323,7 +323,7 @@ ex.3 v-model+value -> checkbox value
 ```
 
 ex.4 select v-bind
-```
+```html
 <body>
     <div id="app">
         <select v-model="selected">
@@ -342,7 +342,7 @@ ex.4 select v-bind
 </script>
 ```
 ex.5 input number แปลง เป็นให้
-```
+```html
 <body>
     <div id="app">
         <input v-model.number="price" type="number"/>
@@ -362,7 +362,7 @@ ex.5 input number แปลง เป็นให้
     observe ตัวแปล เพื่อจะทำอะไรสักอย่าง
 
 ex.1
-```
+```html
 <body>
     <div id="app">
         <p>{{messageUpper}}</p>
@@ -386,7 +386,7 @@ ex.1
 ```
 ex.2 auto complete
 หลีกเลี่ยง การใช้ arrow function ใน callback `(Recommended)`
-```
+```html
 <body>
     <div id="app">
         <p>{{messageUpper}}</p>
@@ -422,7 +422,7 @@ ex.2 auto complete
     มองสิ่งที่เปลี่ยนแปลงใน scope, สามารถ watch ได้หลายตัว
 
 ex.1
-```
+```html
 <body>
     <div id="app">
         <p>Message : {{message}}</p>
@@ -450,7 +450,7 @@ ex.1
 </script>
 ```
 ex.2 getter setter
-```
+```html
 <body>
     <div id="app">
         <p>First Name : {{firstName}}</p>
@@ -511,7 +511,7 @@ ex.2 getter setter
     - destroyed `app.$destroy()`
 
 ex
-```
+```html
 <body>
     <div id="app">
         <p>{{message}}</p>
@@ -547,3 +547,184 @@ ex
     })
 </script>
 ``` 
+
+
+# Components
+    React -> virtual DOM <div> <span> <p>
+    Vue -> virtual DOM <div> <span> <p>
+    Angular -> shadow DOM <app-angular>
+
+```html
+Vue.component(name, { data: function() {}, template: 'html template' });
+```
+- `component`, data
+ex
+```html
+<body>
+    <div id="app">
+        <box-title></box-title>
+        <box-message></box-message>
+    </div>
+</body>
+<script>
+    Vue.component('box-title', {
+        data: function() {
+            return {
+                count: 0
+            }
+        },
+        template: `
+            <button v-on:click="count++">Count {{count}}</button>
+        `
+    });
+    Vue.component('box-message', {
+        data: function() {
+            return {
+                message: 'Hello',
+            }
+        },
+        template: `
+            <div>
+                <p>{{message}}</p>
+                <input v-bind="message"/>
+            </div>
+        `
+    });
+    const app = new Vue({
+        el: '#app'
+    })
+</script>
+```
+
+- `props` คือ data ที่ถูกส่งเข้าไปใน component
+```html
+<body>
+    <div id="app">
+        <box-title v-bind:count="count"></box-title>
+        <box-message></box-message>
+    </div>
+</body>
+<script>
+    Vue.component('box-title', {
+        props: ['count'],
+        data: function() {
+            rawCount: this.count
+        },
+        template: `
+            <button v-on:click="count++">Count {{rawCount}}</button>
+        `
+    });
+    Vue.component('box-message', {
+        props: {
+            message: {
+                type: 'string',
+                default: function() {
+                    return 'Hello'
+                }
+            }
+        },
+        data: function() {
+            return {
+                rawMessage: 'Hello',
+            }
+        },
+        template: `
+            <div>
+                <p>{{rawMessage}}</p>
+                <input v-bind="rawMessage"/>
+            </div>
+        `
+    });
+    const app = new Vue({
+        el: '#app',
+        data: {
+            count: 0
+        }
+    })
+</script>
+```
+
+- `emitting` คือ การส่ง data จากลูกไปหาแม่
+ex.1
+```html
+<body>
+    <div id="app">
+        {{count}}
+        <box-title v-bind:count="count" v-on:target-click="count+1"></box-title>
+    </div>
+</body>
+<script>
+    Vue.component('box-title', {
+        props: ['count'],
+        data: function() {
+            rawCount: this.count
+        },
+        template: `
+            <button v-on:click="$emit('target-click')">Count {{rawCount}}</button>
+        `
+    });
+    const app = new Vue({
+        el: '#app',
+        data: {
+            count: 0
+        }
+    })
+</script>
+```
+ex.2 emit + value
+```html
+<body>
+    <div id="app">
+        {{count}}
+        <box-title v-bind:count="count" v-on:target-click="count+$event"></box-title>
+    </div>
+</body>
+<script>
+    Vue.component('box-title', {
+        props: ['count'],
+        template: `
+            <button v-on:click="$emit('target-click', count + 1)">Count {{count}}</button>
+        `
+    });
+    const app = new Vue({
+        el: '#app',
+        data: {
+            count: 0
+        }
+    })
+</script>
+```
+
+ex.3 to methods emit + value
+```html
+<body>
+    <div id="app">
+        {{count}}
+        <box-title v-bind:count="count" v-on:target-click="onAdd($event)"></box-title>
+    </div>
+</body>
+<script>
+    Vue.component('box-title', {
+        props: ['count'],
+        methods: {
+            onClick: function() {
+                this.$emit('target-click', this.count + 1)
+            }
+        }
+        template: `
+            <button v-on:click="onClick">Count {{rawCount}}</button>
+        `
+    });
+    const app = new Vue({
+        el: '#app',
+        data: {
+            count: 0
+        },
+        methods: {
+            onAdd: function(event) {
+                this.count += event;
+            }
+        }
+    })
+</script>
+```
