@@ -381,3 +381,6 @@ ex.2 getter setter
     - computed observe ได้มากกว่า 1 ตัว
     - watchers observe ได้ 1 ตัว
     - watchers เป็น 2 way binding
+
+# LifeCycle
+![](https://vuejs.org/images/lifecycle.png)
