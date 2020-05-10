@@ -388,149 +388,50 @@ ex.2 getter setter
 - ก่อนที่ Vue จะ create instance 
     - beforeCreate - ของใน `data`, `methods` ยังไม่ถูกสร้าง
     - created
-    ex.1
-    ```
-    <body>
-        <div id="app">
-            <p>{{message}}</p>
-        </div>
-    </body>
-    <script>
-        const app = new Vue({
-            el: '#app',
-            beforeCreate() {
-                console.log('Vue ::beforeCreated::');
-            },
-            created() {
-                console.log('Vue ::created::');
-            }
-        })
-    </script>
-    ``` 
 - ก่อนที่ Vue จะ compile DOM
     - beforeMount - มีของใน `data`, `methods`, `computed` แล้ว สามารถ access ได้
-    ex.1
-    ```
-    <body>
-        <div id="app">
-            <p>{{message}}</p>
-        </div>
-    </body>
-    <script>
-        const app = new Vue({
-            el: '#app',
-            beforeCreate() {
-                console.log('Vue ::beforeCreated::');
-            },
-            created() {
-                console.log('Vue ::created::');
-            },
-            beforeMount() {
-                console.log('Vue ::beforeMount::');
-            }
-        })
-    </script>
-    ``` 
 - หลังจากที่ Vue compile DOM
     - mounted - มีของใน `data`, `methods`, `computed` แล้ว สามารถ access ได้หมด  (add listener)
-    ex.1
-    ```
-    <body>
-        <div id="app">
-            <p>{{message}}</p>
-        </div>
-    </body>
-    <script>
-        const app = new Vue({
-            el: '#app',
-            beforeCreate() {
-                console.log('Vue ::beforeCreated::');
-            },
-            created() {
-                console.log('Vue ::created::');
-            },
-            beforeMount() {
-                console.log('Vue ::beforeMount::');
-            },
-            mounted() {
-                console.log('Vue ::mounted::');
-            }
-        })
-    </script>
-    ```
-
 - เมื่อมีการเปลี่ยนค่า 
     - beforeUpdate -> เมื่อ DOM จะ re-render เปลี่ยนค่าได้นะ
     - updated -> เมื่อ DOM จะ re-render แล้ว ยังเปลี่ยนค่าได้นะ
-
-    ex.1
-    ```
-    <body>
-        <div id="app">
-            <p>{{message}}</p>
-        </div>
-    </body>
-    <script>
-        const app = new Vue({
-            el: '#app',
-            beforeCreate() {
-                console.log('Vue ::beforeCreated::');
-            },
-            created() {
-                console.log('Vue ::created::');
-            },
-            beforeMount() {
-                console.log('Vue ::beforeMount::');
-            },
-            mounted() {
-                console.log('Vue ::mounted::');
-            },
-            beforeUpdate() {
-                console.log('Vue ::beforeUpdate::');
-            },
-            updated() {
-                console.log('Vue ::updated::');
-            },
-        })
-    </script>
-    ``` 
-- ก่อนที่จะถูกทำลาย
+- ก่อนที่ Vue จะถูกทำลาย
     - beforeDestroy (remove listener)
     - destroyed (app.$destroy())
-    ex.1
-    ```
-    <body>
-        <div id="app">
-            <p>{{message}}</p>
-        </div>
-    </body>
-    <script>
-        const app = new Vue({
-            el: '#app',
-            beforeCreate() {
-                console.log('Vue ::beforeCreated::');
-            },
-            created() {
-                console.log('Vue ::created::');
-            },
-            beforeMount() {
-                console.log('Vue ::beforeMount::');
-            },
-            mounted() {
-                console.log('Vue ::mounted::');
-            },
-            beforeUpdate() {
-                console.log('Vue ::beforeUpdate::');
-            },
-            updated() {
-                console.log('Vue ::updated::');
-            },
-            beforeDestroy() {
-                console.log('Vue ::beforeDestroy::');
-            },
-            destroyed() {
-                console.log('Vue ::destroyed::');
-            },
-        })
-    </script>
-    ``` 
+ex
+```
+<body>
+    <div id="app">
+        <p>{{message}}</p>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        beforeCreate() {
+            console.log('Vue ::beforeCreated::');
+        },
+        created() {
+            console.log('Vue ::created::');
+        },
+        beforeMount() {
+            console.log('Vue ::beforeMount::');
+        },
+        mounted() {
+            console.log('Vue ::mounted::');
+        },
+        beforeUpdate() {
+            console.log('Vue ::beforeUpdate::');
+        },
+        updated() {
+            console.log('Vue ::updated::');
+        },
+        beforeDestroy() {
+            console.log('Vue ::beforeDestroy::');
+        },
+        destroyed() {
+            console.log('Vue ::destroyed::');
+        },
+    })
+</script>
+``` 
