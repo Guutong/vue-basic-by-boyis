@@ -9,6 +9,7 @@
 - vue cli `(Recommended)`
 
 # App
+[code](https://jsbin.com/ficezivoji/edit?html,output)
 ```html
   <body>
     <div id="app">
@@ -1080,6 +1081,9 @@ ex.1 global mixins
 ```
 
 # Custom Directive
+
+[code](https://jsbin.com/duzesoyamo/edit?html,output)
+
 ex.1
 ```html
 <body>
@@ -1198,11 +1202,30 @@ ex.2 global
     }
   })
 </script>
-    const app = new Vue({
-        el: '#app',
-        data: {
-            message: 'Hello Vue!'
-        },
-    })
+```
+
+# Filter
+
+[code](https://jsbin.com/supoyuponu/edit?html,output)
+```html
+<body>
+  <div id="app">
+    <p>{{message | text-up('lower') | first-letter}}</p>
+
+  </div>
+</body>
+<script>
+  Vue.filter('text-up', function(value, type) {
+    return type === 'lower'? value.toLowerCase(): value.toUpperCase();
+  });
+  Vue.filter('first-letter', function(value, type) {
+    return value[0].toUpperCase()+ value.slice(1);
+  });
+  const app = new Vue({
+    el: '#app',
+    data: {
+        message: 'Hello Vue!'
+    }
+  })
 </script>
 ```
