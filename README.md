@@ -270,15 +270,11 @@ ex.4 select v-bind
         selected: null
     }
 ```
-ex.5 select v-bind option
+ex.5 input number แปลง เป็นให้
 ```
-    <select v-model="selected">
-        <option v-bind:value="bindone">1</option>
-        <option v-bind:value="{number: 2}">2</option>
-    </select>
+    <input v-model.number="price" type="number"/>
     ...
     data: {
-        bindone: {number: 1},
-        selected: null
+        price: 0
     }
 ```
