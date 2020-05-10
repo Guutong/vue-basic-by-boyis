@@ -1,6 +1,18 @@
 # Vue 101
  ใช้ MVVM pattern
 
+# Table Content
+- [Install](#install)
+- [Template Syntax](#template-syntax)
+- [TMethods](#methods)
+- [Forms](#forms)
+- [Computed](#computed-recommended)
+- [LifeCycle](#lifeCycle)
+- [Components](#components)
+- [Mixins](#mixins)
+- [Custom Directive](#custom-directive)
+- [Filter](#filter)
+
 # Install 
 - สามารถใช้ cdn ได้
 ```html
