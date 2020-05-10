@@ -8,52 +8,35 @@
   </head>
   <body>
     <div id="app">
-        <button v-on:click="onSwitch">Switch</button>
-        <keep-alive>
-        <component v-bind:is="comp" v-bind="currentProps"></component>
-        </keep-alive>
+        <p>{{reverseMessage}}</p>
+    </div>
+    <div id="app-1">
+        <p>{{reverseMessage}}</p>
     </div>
 </body>
 <script>
-    Vue.component('comp-a', {
-         props: ['message'],
-        template: `
-            <div>
-                {{new Date()}}{{message}}
-            </div>
-        `
-    });
-    Vue.component('comp-b', {
-        props: ['message'],
-        template: `
-            <div>
-                {{new Date()}} {{message}}
-            </div>
-        `
-    });
-    const app = new Vue({
-        el: '#app',
-        data: {
-            comp: 'comp-a',
+    const mixin = {
+        data: function() {
+            return {
+                message: 'Hello Vue'
+            }
         },
         computed: {
-            currentProps: function() {
-                if (this.comp === 'comp-a') {
-                    return {
-                        message: 'Hello A'
-                    }
-                } else {
-                    return {
-                        message: 'Hello B'
-                    }
-                }
-            }
-        },
-        methods: {
-            onSwitch: function() {
-                this.comp = this.comp === 'comp-a' ? 'comp-b' : 'comp-a';
+            reverseMessage: function() {
+                return this.message.split('').reverse().join('')
             }
         }
-    })
+    }
+    const app = new Vue({
+        el: '#app',
+        mixins: [mixin]
+    });
+    const app1 = new Vue({
+        el: '#app-1',
+        mixins: [mixin],
+        data: {
+            message: 'Hello Vue 1'
+        },
+    });
 </script>
 </html>

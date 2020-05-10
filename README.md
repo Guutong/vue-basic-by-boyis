@@ -955,3 +955,126 @@ ex.3 props
     })
 </script>
 ```
+
+# Mixins
+
+```html
+<body>
+    <div id="app">
+        <p>{{reverseMessage}}</p>
+    </div>
+    <div id="app-1">
+        <p>{{reverseMessage}}</p>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue'
+        },
+        computed: {
+            reverseMessage: function() {
+                return this.message.split('').reverse().join('')
+            }
+        }
+    });
+    const app1 = new Vue({
+        el: '#app-1',
+        data: {
+            message: 'Hello Vue'
+        },
+        computed: {
+            reverseMessage: function() {
+                return this.message.split('').reverse().join('')
+            }
+        }
+    });
+</script>
+```
+
+use mixins
+
+```html
+<body>
+    <div id="app">
+        <p>{{reverseMessage}}</p>
+    </div>
+    <div id="app-1">
+        <p>{{reverseMessage}}</p>
+    </div>
+</body>
+<script>
+    const mixin = {
+        data: function() {
+            return {
+                message: 'Hello Vue'
+            }
+        },
+        computed: {
+            reverseMessage: function() {
+                return this.message.split('').reverse().join('')
+            }
+        },
+        created() {
+            console.log('mixin created')
+        }
+    }
+    const app = new Vue({
+        el: '#app',
+        mixins: [mixin],
+        created() {
+            console.log('app created')
+        }
+    });
+    const app1 = new Vue({
+        el: '#app-1',
+        mixins: [mixin],
+        data: {
+            message: 'Hello Vue 1'
+        },
+    });
+</script>
+```
+
+ex.1 global mixins
+
+```html
+<body>
+    <div id="app">
+        <p>{{reverseMessage}}</p>
+    </div>
+    <div id="app-1">
+        <p>{{reverseMessage}}</p>
+    </div>
+</body>
+<script>
+    Vue.mixins({
+        data: function() {
+            return {
+                message: 'Hello Vue'
+            }
+        },
+        computed: {
+            reverseMessage: function() {
+                return this.message.split('').reverse().join('')
+            }
+        },
+        created() {
+            console.log('mixin created')
+        }
+    });
+    const app = new Vue({
+        el: '#app',
+        created() {
+            console.log('app created')
+        }
+    });
+    const app1 = new Vue({
+        el: '#app-1',
+        data: {
+            message: 'Hello Vue 1'
+        },
+    });
+</script>
+```
