@@ -8,12 +8,34 @@
   </head>
   <body>
     <div id="app">
-      <p>Hello Vue</p>
+        <box-message>
+            <template v-slot:title>
+                <p>Hello Slot title</p>
+            </template>
+            <template v-slot:span>
+                <p>Hello Slot span</p>
+            </template>
+            <template v-slot:default>
+                <p>Hello Slot default</p>
+            </template>
+        </box-message>
     </div>
-  </body>
-  <script>
+</body>
+<script>
+    Vue.component('box-message', {
+        props: ['message'],
+        template: `
+            <div>
+                <slot name="title"></slot>
+                <slot></slot>
+                <slot name="span"></slot>
+                <p>{{message}}</p>
+                <input v-bind="message"/>
+            </div>
+        `
+    });
     const app = new Vue({
-      el: '.appc'
-    })
-  </script>
+        el: '#app'
+    });
+</script>
 </html>

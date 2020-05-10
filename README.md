@@ -728,3 +728,96 @@ ex.3 to methods emit + value
     })
 </script>
 ```
+- slot
+ React -> props.children
+ Angular -> <ng-content>
+
+ex.1 slot basic
+```html
+<body>
+    <div id="app">
+        <box-message>
+            <p>Hello Slot</p>
+        </box-message>
+    </div>
+</body>
+<script>
+    Vue.component('box-message', {
+        props: ['message']
+        template: `
+            <div>
+                <slot></slot>
+                <p>{{message}}</p>
+                <input v-bind="message"/>
+            </div>
+        `
+    });
+    const app = new Vue({
+        el: '#app'
+    })
+</script>
+```
+ex.2 slot title
+```html
+<body>
+    <div id="app">
+        <box-message>
+            <template v-slot:title>
+                <p>Hello Slot title</p>
+            </template>
+            <p>Hello Slot</p>
+        </box-message>
+    </div>
+</body>
+<script>
+    Vue.component('box-message', {
+        props: ['message'],
+        template: `
+            <div>
+                <slot name="title"></slot>
+                <p>{{message}}</p>
+                <input v-bind="message"/>
+            </div>
+        `
+    });
+    const app = new Vue({
+        el: '#app'
+    })
+</script>
+```
+
+ex.3 slot default
+```html
+<body>
+    <div id="app">
+        <box-message>
+            <template v-slot:title>
+                <p>Hello Slot title</p>
+            </template>
+            <template v-slot:span>
+                <p>Hello Slot span</p>
+            </template>
+            <template v-slot:default>
+                <p>Hello Slot default</p>
+            </template>
+        </box-message>
+    </div>
+</body>
+<script>
+    Vue.component('box-message', {
+        props: ['message'],
+        template: `
+            <div>
+                <slot name="title"></slot>
+                <slot></slot>
+                <slot name="span"></slot>
+                <p>{{message}}</p>
+                <input v-bind="message"/>
+            </div>
+        `
+    });
+    const app = new Vue({
+        el: '#app'
+    });
+</script>
+```
