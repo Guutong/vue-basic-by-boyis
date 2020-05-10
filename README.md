@@ -1078,3 +1078,131 @@ ex.1 global mixins
     });
 </script>
 ```
+
+# Custom Directive
+ex.1
+```html
+<body>
+    <div id="app">
+        <p v-boyis>hello</p>
+        <p v-boyis-arg:lower>Hello</p>
+        <p v-boyis-arg:upper>Hello</p>
+
+        <p v-boyis-mod:lower.font-big>Hello</p>
+        <p v-boyis-mod:lower.font-small.font-red>Hello</p>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!'
+        },
+        directives: {
+            /**
+            * el - element
+            * binding - name, modifier ....
+            */
+            'boyis': function(el, binding) {
+                el.textContent = el.textContent.toUpperCase();
+
+            },
+            'boyis-arg': function(el, binding) {
+                const {arg} = binding;
+                if (arg == 'lower') {
+                    el.textContent = el.textContent.toLowerCase();
+                } else {
+                    el.textContent = el.textContent.toUpperCase();
+                }
+            },
+            'boyis-mod': function(el, binding) {
+                const { arg, modifiers } = binding;
+                if (arg == 'lower') {
+                    el.textContent = el.textContent.toLowerCase();
+                } else {
+                    el.textContent = el.textContent.toUpperCase();
+                }
+
+                if (modifiers['font-small']) {
+                    el.style.fontSize = '8px';
+                } 
+                
+                if (modifiers['font-big']) {
+                    el.style.fontSize = '14px';
+                }
+
+                if (modifiers['font-red']) {
+                    el.style.color = 'red';
+                } 
+
+                if (modifiers['font-blue']) {
+                    el.style.color = 'blue';
+                } 
+            },
+        }
+    })
+</script>
+```
+ex.2 global
+```html
+<body>
+  <div id="app">
+    <p v-boyis>hello</p>
+    <p v-boyis-arg:lower>Hello</p>
+    <p v-boyis-arg:upper>Hello</p>
+
+    <p v-boyis-mod:lower.font-big.font-blue>Hello</p>
+    <p v-boyis-mod:lower.font-small.font-red>Hello</p>
+  </div>
+</body>
+<script>
+  Vue.directive('boyis', function(el, binding) {
+    el.textContent = el.textContent.toUpperCase();
+  });
+  Vue.directive('boyis-arg', function(el, binding) {
+    const {arg} = binding;
+    if (arg == 'lower') {
+        el.textContent = el.textContent.toLowerCase();
+    } else {
+        el.textContent = el.textContent.toUpperCase();
+    }
+  })
+  Vue.directive('boyis-mod', function(el, binding) {
+    const { arg, modifiers } = binding;
+    if (arg == 'lower') {
+        el.textContent = el.textContent.toLowerCase();
+    } else {
+        el.textContent = el.textContent.toUpperCase();
+    }
+
+    if (modifiers['font-small']) {
+        el.style.fontSize = '8px';
+    } 
+    
+    if (modifiers['font-big']) {
+        el.style.fontSize = '14px';
+    }
+
+    if (modifiers['font-red']) {
+        el.style.color = 'red';
+    } 
+
+    if (modifiers['font-blue']) {
+        el.style.color = 'blue';
+    } 
+  });
+  const app = new Vue({
+    el: '#app',
+    data: {
+        message: 'Hello Vue!'
+    }
+  })
+</script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!'
+        },
+    })
+</script>
+```

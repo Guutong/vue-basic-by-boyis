@@ -6,37 +6,57 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <title>Document</title>
   </head>
-  <body>
-    <div id="app">
-        <p>{{reverseMessage}}</p>
-    </div>
-    <div id="app-1">
-        <p>{{reverseMessage}}</p>
-    </div>
+<body>
+  <div id="app">
+    <p v-boyis>hello</p>
+    <p v-boyis-arg:lower>Hello</p>
+    <p v-boyis-arg:upper>Hello</p>
+
+    <p v-boyis-mod:lower.font-big.font-blue>Hello</p>
+    <p v-boyis-mod:lower.font-small.font-red>Hello</p>
+  </div>
 </body>
 <script>
-    const mixin = {
-        data: function() {
-            return {
-                message: 'Hello Vue'
-            }
-        },
-        computed: {
-            reverseMessage: function() {
-                return this.message.split('').reverse().join('')
-            }
-        }
+  Vue.directive('boyis', function(el, binding) {
+    el.textContent = el.textContent.toUpperCase();
+  });
+  Vue.directive('boyis-arg', function(el, binding) {
+    const {arg} = binding;
+    if (arg == 'lower') {
+        el.textContent = el.textContent.toLowerCase();
+    } else {
+        el.textContent = el.textContent.toUpperCase();
     }
-    const app = new Vue({
-        el: '#app',
-        mixins: [mixin]
-    });
-    const app1 = new Vue({
-        el: '#app-1',
-        mixins: [mixin],
-        data: {
-            message: 'Hello Vue 1'
-        },
-    });
+  })
+  Vue.directive('boyis-mod', function(el, binding) {
+    const { arg, modifiers } = binding;
+    if (arg == 'lower') {
+        el.textContent = el.textContent.toLowerCase();
+    } else {
+        el.textContent = el.textContent.toUpperCase();
+    }
+
+    if (modifiers['font-small']) {
+        el.style.fontSize = '8px';
+    } 
+    
+    if (modifiers['font-big']) {
+        el.style.fontSize = '14px';
+    }
+
+    if (modifiers['font-red']) {
+        el.style.color = 'red';
+    } 
+
+    if (modifiers['font-blue']) {
+        el.style.color = 'blue';
+    } 
+  });
+  const app = new Vue({
+    el: '#app',
+    data: {
+        message: 'Hello Vue!'
+    }
+  })
 </script>
 </html>
