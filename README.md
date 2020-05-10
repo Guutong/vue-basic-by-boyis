@@ -21,7 +21,7 @@
 ```
 
 # Template Syntax
-- Interpulations
+- Interpolations
     
 - Directive
     - v-[directive name]:[argument-name] // directive pattern
@@ -94,6 +94,60 @@
     - v-on
         -> v-on:click
         -> @click
+
+- Modifiers
+    - v-[directive-name]:[argument-name].[modifier-name]
+    - v-[directive-name].[modifier-name]
+    - v-[directive-name]:[argument-name].[modifier-name].[modifier-name]
+
+        - v-model
+            
+            ex.1
+            ```
+                <p>Message: {{message}}</p>
+                <input v-model="message"/>
+                ...
+                data: {
+                    message: 'Hello Angular'
+                }
+            ```
+            ex.2 on key
+            ```
+                <p>Message: {{message}}</p>
+                <input v-model="message" v-on:keydown.enter="onKey"/>
+                ...
+                data: {
+                    message: 'Hello Angular'
+                },
+                methods: {
+                    onKey: function() {
+                        console.log('on enter key')
+                    }
+                }
+            ``` 
+            ex.3 on key command + c
+            ```
+                <p>Message: {{message}}</p>
+                <input v-model="message" v-on:keydown.meta.67="onKey"/>
+                ...
+                data: {
+                    message: 'Hello Angular'
+                },
+                methods: {
+                    onKey: function() {
+                        console.log('on enter key command + c')
+                    }
+                }
+            ``` 
+            ex.4 .lazy ทำที่หลังจาก เปลี่ยน event
+            ```
+                <p>Message: {{message}}</p>
+                <input v-model.lazy="message"/>
+                ...
+                data: {
+                    message: 'Hello Angular'
+                }
+            ``` 
 
 # Methods
 
@@ -169,47 +223,62 @@ methods: {
 }
 ```
 
-# Modifiers
-- v-[directive-name]:[argument-name].[modifier-name]
-- v-[directive-name].[modifier-name]
-- v-[directive-name]:[argument-name].[modifier-name].[modifier-name]
+# Forms
+  
+ex.1 show value
+```
+    <p>Message: {{message}}</p>
+    <input :value="message"/>
+    ...
+    data: {
+        message: 'Hello Angular'
+    }
+```
+ex.2 checkbox
+```
+    <p>Message: {{message}}</p>
+    <input :value="message"/>
+    <label for="checkbox">{{checked}}</label>
+    <input type="checkbox" id="checkbox" v-model="checked">
+    ...
+    data: {
+        message: 'Hello Angular',
+        checked: false
+    }
+```
+ex.3 v-model+value -> checkbox value 
+```
+    <p>Message: {{message}}</p>
+    <input :value="message"/>
+    <label for="checkbox">{{checked}}</label>
+    <input type="checkbox" id="checkbox" v-model="checked" true-value="yes" false-value="no">
+    ...
+    data: {
+        message: 'Hello Angular',
+        checked: 'no'
+    }
+```
 
-    - v-model
-        
-        ex.1
-        ```
-            <p>Message: {{message}}</p>
-            <input v-model="message"/>
-            ...
-            data: {
-                message: 'Hello Angular'
-            }
-        ```
-        ex.2 on key
-        ```
-            <p>Message: {{message}}</p>
-            <input v-model="message" v-on:keydown.enter="onKey"/>
-            ...
-            data: {
-                message: 'Hello Angular'
-            },
-            methods: {
-                onKey: function() {
-                    console.log('on enter key')
-                }
-            }
-        ``` 
-        ex.3 on key command + c
-        ```
-            <p>Message: {{message}}</p>
-            <input v-model="message" v-on:keydown.meta.67="onKey"/>
-            ...
-            data: {
-                message: 'Hello Angular'
-            },
-            methods: {
-                onKey: function() {
-                    console.log('on enter key command + c')
-                }
-            }
-        ``` 
+ex.4 select v-bind
+```
+    <select v-model="selected">
+        <option v-bind:value="{number: 1}">1</option>
+        <option v-bind:value="{number: 2}">2</option>
+    </select>
+    ...
+    data: {
+        selected: null
+    }
+```
+ex.5 select v-bind option
+```
+    <select v-model="selected">
+        <option v-bind:value="bindone">1</option>
+        <option v-bind:value="{number: 2}">2</option>
+    </select>
+    ...
+    data: {
+        bindone: {number: 1},
+        selected: null
+    }
+```
